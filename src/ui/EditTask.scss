@@ -59,9 +59,6 @@
             font-weight: bold;
         }
 
-        input:not(:checked) + label > span:nth-child(4) {
-            filter: grayscale(100%) opacity(60%);
-        }
     }
 }
 
