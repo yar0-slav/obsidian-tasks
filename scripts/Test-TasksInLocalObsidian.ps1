@@ -2,11 +2,24 @@
 param (
     [Parameter(HelpMessage = 'The path to the plugins folder uner the .obsidian directory.')]
     [String]
-    $ObsidianPluginRoot = $env:OBSIDIAN_PLUGIN_ROOT,
+    $ObsidianPluginRoot = "D:\Projects\Coding\obsidian-tasks\resources\sample_vaults\Tasks-Demo\.obsidian\plugins\",
     [Parameter(HelpMessage = 'The folder name of the plugin to copy the files to.')]
     [String]
     $PluginFolderName = 'obsidian-tasks-plugin'
 )
+
+$envFilePath = Join-Path -Path $PSScriptRoot -ChildPath '../.env'
+if (Test-Path -Path $envFilePath) {
+    Get-Content -Path $envFilePath | ForEach-Object {
+        if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
+        $parts = $_ -split '=', 2
+        $key = $parts[0].Trim()
+        $value = $parts[1].Trim()
+        [System.Environment]::SetEnvironmentVariable($key, $value)
+    }
+} else {
+    Write-Error "The .env file was not found at $envFilePath"
+}
 
 $repoRoot = (Resolve-Path -Path $(git rev-parse --show-toplevel)).Path
 
@@ -23,6 +36,7 @@ Write-Host "Repo root: $repoRoot"
 yarn run build:dev
 
 if ($?) {
+
     Write-Output 'Build successful'
 
     $filesToLink = @('main.js', 'styles.css', 'manifest.json')
