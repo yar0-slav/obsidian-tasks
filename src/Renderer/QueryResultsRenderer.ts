@@ -227,6 +227,16 @@ export class QueryResultsRenderer {
         const isFilenameUnique = this.isFilenameUnique({ task }, queryRendererParameters.allMarkdownFiles);
         const listItem = await taskLineRenderer.renderTaskLine(task, taskIndex, isFilenameUnique);
 
+        const taskDescription: HTMLElement | null = listItem.querySelector('.task-description');
+
+        if (taskDescription) {
+            this.taskBacklink(taskDescription, task, queryRendererParameters);
+        } else {
+            console.error('taskDescription not found');
+        }
+
+        taskList.appendChild(listItem);
+
         // Remove all footnotes. They don't re-appear in another document.
         const footnotes = listItem.querySelectorAll('[data-footnote-id]');
         footnotes.forEach((footnote) => footnote.remove());
@@ -239,9 +249,9 @@ export class QueryResultsRenderer {
 
         const shortMode = this.query.queryLayoutOptions.shortMode;
 
-        if (!this.query.queryLayoutOptions.hideBacklinks) {
-            this.addBacklinks(extrasSpan, task, shortMode, isFilenameUnique, queryRendererParameters);
-        }
+        // if (!this.query.queryLayoutOptions.hideBacklinks) {
+        //     this.addBacklinks(extrasSpan, task, shortMode, isFilenameUnique, queryRendererParameters);
+        // }
 
         if (!this.query.queryLayoutOptions.hideEditButton) {
             this.addEditButton(extrasSpan, task, queryRendererParameters);
@@ -297,36 +307,12 @@ export class QueryResultsRenderer {
         await this.renderMarkdown(group.displayName, headerEl, this.tasksFile.path, this.obsidianComponent);
     }
 
-    private addBacklinks(
-        listItem: HTMLElement,
-        task: Task,
-        shortMode: boolean,
-        isFilenameUnique: boolean | undefined,
-        queryRendererParameters: QueryRendererParameters,
-    ) {
-        const backLink = listItem.createSpan({ cls: 'tasks-backlink' });
-
-        if (!shortMode) {
-            backLink.append(' (');
-        }
-
-        const link = createAndAppendElement('a', backLink);
+    private taskBacklink(taskDescription: any, task: Task, queryRendererParameters: QueryRendererParameters) {
+        const link = document.createElement('a');
 
         link.rel = 'noopener';
         link.target = '_blank';
         link.addClass('internal-link');
-        if (shortMode) {
-            link.addClass('internal-link-short-mode');
-        }
-
-        let linkText: string;
-        if (shortMode) {
-            linkText = ' 🔗';
-        } else {
-            linkText = task.getLinkText({ isFilenameUnique }) ?? '';
-        }
-
-        link.setText(linkText);
 
         // Go to the line the task is defined at
         link.addEventListener('click', async (ev: MouseEvent) => {
@@ -337,10 +323,60 @@ export class QueryResultsRenderer {
             await queryRendererParameters.backlinksMousedownHandler(ev, task);
         });
 
-        if (!shortMode) {
-            backLink.append(')');
+        const parentElement = taskDescription.parentElement;
+
+        if (parentElement) {
+            parentElement.insertBefore(link, taskDescription);
+            link.appendChild(taskDescription);
+        } else {
+            console.error('taskDescription does not have a parent element');
         }
     }
+
+    // private addBacklinks(
+    //     listItem: HTMLElement,
+    //     task: Task,
+    //     shortMode: boolean,
+    //     isFilenameUnique: boolean | undefined,
+    //     queryRendererParameters: QueryRendererParameters,
+    // ) {
+    //     const backLink = listItem.createSpan({ cls: 'tasks-backlink' });
+
+    //     if (!shortMode) {
+    //         backLink.append(' (');
+    //     }
+
+    //     const link = createAndAppendElement('a', backLink);
+
+    //     link.rel = 'noopener';
+    //     link.target = '_blank';
+    //     link.addClass('internal-link');
+    //     if (shortMode) {
+    //         link.addClass('internal-link-short-mode');
+    //     }
+
+    //     let linkText: string;
+    //     if (shortMode) {
+    //         linkText = '🔗'
+    //     } else {
+    //         linkText = task.getLinkText({ isFilenameUnique }) ?? '';
+    //     }
+
+    //     link.setText(linkText);
+
+    //     // Go to the line the task is defined at
+    //     link.addEventListener('click', async (ev: MouseEvent) => {
+    //         await queryRendererParameters.backlinksClickHandler(ev, task);
+    //     });
+
+    //     link.addEventListener('mousedown', async (ev: MouseEvent) => {
+    //         await queryRendererParameters.backlinksMousedownHandler(ev, task);
+    //     });
+
+    //     if (!shortMode) {
+    //         backLink.append(')');
+    //     }
+    // }
 
     private addPostponeButton(listItem: HTMLElement, task: Task, shortMode: boolean) {
         const amount = 1;
