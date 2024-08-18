@@ -189,7 +189,7 @@ function addPrioritySuggestions(
         Object.values(symbols.prioritySymbols).some((value) => value.length > 0 && line.includes(value));
     if (!hasPriority(parameters.line)) {
         const prioritySymbols: { [key: string]: string } = symbols.prioritySymbols;
-        const priorityTexts = ['High', 'Medium', 'Low', 'Highest', 'Lowest'];
+        const priorityTexts = ['P2', 'P3', 'P4', 'Goal', 'None'];
 
         for (const priorityText of priorityTexts) {
             const prioritySymbol = prioritySymbols[priorityText];

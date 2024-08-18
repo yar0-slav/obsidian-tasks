@@ -577,7 +577,7 @@ export class Task extends ListItem {
      * Returns the text to be used to represent the {@link priority} in group headings.
      *
      * Hidden text is used to sort the priorities in decreasing order, from
-     * {@link Priority.Highest} to {@link Priority.Lowest}.
+     * {@link Priority.P1} to {@link Priority.P4}.
      */
     public get priorityNameGroupText(): string {
         const priorityName = PriorityTools.priorityNameUsingNormal(this.priority);

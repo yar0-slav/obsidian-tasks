@@ -17,11 +17,11 @@ import type { TaskDetails, TaskSerializer } from '.';
 export interface DefaultTaskSerializerSymbols {
     // NEW_TASK_FIELD_EDIT_REQUIRED
     readonly prioritySymbols: {
-        Highest: string;
-        High: string;
-        Medium: string;
-        Low: string;
-        Lowest: string;
+        Goal: string;
+        P1: string;
+        P2: string;
+        P3: string;
+        P4: string;
         None: string;
     };
     readonly startDateSymbol: string;
@@ -62,11 +62,11 @@ export const taskIdSequenceRegex = new RegExp(taskIdRegex.source + '( *, *' + ta
 export const DEFAULT_SYMBOLS: DefaultTaskSerializerSymbols = {
     // NEW_TASK_FIELD_EDIT_REQUIRED
     prioritySymbols: {
-        Highest: '🔺',
-        High: '⏫',
-        Medium: '🔼',
-        Low: '🔽',
-        Lowest: '⏬',
+        Goal: '🟢',
+        P1: '🔴',
+        P2: '🟡',
+        P3: '🔵',
+        P4: '⚫️',
         None: '',
     },
     startDateSymbol: '🛫',
@@ -83,7 +83,7 @@ export const DEFAULT_SYMBOLS: DefaultTaskSerializerSymbols = {
         // The following regex's end with `$` because they will be matched and
         // removed from the end until none are left.
         // \uFE0F? allows an optional Variant Selector 16 on emojis.
-        priorityRegex: /([🔺⏫🔼🔽⏬])\uFE0F?$/u,
+        priorityRegex: /([🟢🔴🟡🔵⚫️])\uFE0F?$/u,
         startDateRegex: /🛫 *(\d{4}-\d{2}-\d{2})$/u,
         createdDateRegex: /➕ *(\d{4}-\d{2}-\d{2})$/u,
         scheduledDateRegex: /[⏳⌛] *(\d{4}-\d{2}-\d{2})$/u,
@@ -174,16 +174,16 @@ export class DefaultTaskSerializer implements TaskSerializer {
             case TaskLayoutComponent.Priority: {
                 let priority: string = '';
 
-                if (task.priority === Priority.Highest) {
-                    priority = ' ' + prioritySymbols.Highest;
-                } else if (task.priority === Priority.High) {
-                    priority = ' ' + prioritySymbols.High;
-                } else if (task.priority === Priority.Medium) {
-                    priority = ' ' + prioritySymbols.Medium;
-                } else if (task.priority === Priority.Low) {
-                    priority = ' ' + prioritySymbols.Low;
-                } else if (task.priority === Priority.Lowest) {
-                    priority = ' ' + prioritySymbols.Lowest;
+                if (task.priority === Priority.Goal) {
+                    priority = ' ' + prioritySymbols.Goal;
+                } else if (task.priority === Priority.P1) {
+                    priority = ' ' + prioritySymbols.P1;
+                } else if (task.priority === Priority.P2) {
+                    priority = ' ' + prioritySymbols.P2;
+                } else if (task.priority === Priority.P3) {
+                    priority = ' ' + prioritySymbols.P3;
+                } else if (task.priority === Priority.P4) {
+                    priority = ' ' + prioritySymbols.P4;
                 }
                 return priority;
             }
@@ -230,16 +230,16 @@ export class DefaultTaskSerializer implements TaskSerializer {
     protected parsePriority(p: string): Priority {
         const { prioritySymbols } = this.symbols;
         switch (p) {
-            case prioritySymbols.Lowest:
-                return Priority.Lowest;
-            case prioritySymbols.Low:
-                return Priority.Low;
-            case prioritySymbols.Medium:
-                return Priority.Medium;
-            case prioritySymbols.High:
-                return Priority.High;
-            case prioritySymbols.Highest:
-                return Priority.Highest;
+            case prioritySymbols.P4:
+                return Priority.P4;
+            case prioritySymbols.P3:
+                return Priority.P3;
+            case prioritySymbols.P2:
+                return Priority.P2;
+            case prioritySymbols.P1:
+                return Priority.P1;
+            case prioritySymbols.Goal:
+                return Priority.Goal;
             default:
                 return Priority.None;
         }

@@ -9,23 +9,23 @@ export class PriorityTools {
     public static priorityNameUsingNone(priority: Priority) {
         let priorityName = 'ERROR';
         switch (priority) {
-            case Priority.High:
-                priorityName = 'High';
+            case Priority.Goal:
+                priorityName = 'Goal';
                 break;
-            case Priority.Highest:
-                priorityName = 'Highest';
+            case Priority.P1:
+                priorityName = 'P1';
                 break;
-            case Priority.Medium:
-                priorityName = 'Medium';
+            case Priority.P2:
+                priorityName = 'P2';
+                break;
+            case Priority.P3:
+                priorityName = 'P3';
+                break;
+            case Priority.P4:
+                priorityName = 'P4';
                 break;
             case Priority.None:
                 priorityName = 'None';
-                break;
-            case Priority.Low:
-                priorityName = 'Low';
-                break;
-            case Priority.Lowest:
-                priorityName = 'Lowest';
                 break;
         }
         return priorityName;
@@ -37,6 +37,6 @@ export class PriorityTools {
      * @see priorityNameUsingNone
      */
     public static priorityNameUsingNormal(priority: Priority) {
-        return PriorityTools.priorityNameUsingNone(priority).replace('None', 'Normal');
+        return PriorityTools.priorityNameUsingNone(priority).replace('None', 'P3');
     }
 }

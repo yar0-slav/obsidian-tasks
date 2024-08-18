@@ -10,10 +10,10 @@
  * @enum {number}
  */
 export enum Priority {
-    Highest = '0',
-    High = '1',
-    Medium = '2',
-    None = '3',
-    Low = '4',
-    Lowest = '5',
+    Goal = '0',
+    P1 = '1',
+    P2 = '2',
+    P3 = '3',
+    P4 = '4',
+    None = '5',
 }

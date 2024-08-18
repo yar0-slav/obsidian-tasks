@@ -9,7 +9,7 @@ import { Recurrence } from '../Task/Recurrence';
 import { Task } from '../Task/Task';
 import { addDependencyToParent, ensureTaskHasId, generateUniqueId, removeDependency } from '../Task/TaskDependency';
 
-type EditableTaskPriority = 'none' | 'lowest' | 'low' | 'medium' | 'high' | 'highest';
+type EditableTaskPriority = 'none' | 'p4' | 'p3' | 'p2' | 'p1' | 'goal';
 
 /**
  * {@link Task} objects are immutable. This class allows to create a mutable object from a {@link Task}, apply the edits,
@@ -90,16 +90,16 @@ export class EditableTask {
             description != task.description || !GlobalFilter.getInstance().includedIn(task.description);
 
         let priority: EditableTaskPriority = 'none';
-        if (task.priority === Priority.Lowest) {
-            priority = 'lowest';
-        } else if (task.priority === Priority.Low) {
-            priority = 'low';
-        } else if (task.priority === Priority.Medium) {
-            priority = 'medium';
-        } else if (task.priority === Priority.High) {
-            priority = 'high';
-        } else if (task.priority === Priority.Highest) {
-            priority = 'highest';
+        if (task.priority === Priority.P4) {
+            priority = 'p4';
+        } else if (task.priority === Priority.P3) {
+            priority = 'p3';
+        } else if (task.priority === Priority.P2) {
+            priority = 'p2';
+        } else if (task.priority === Priority.P1) {
+            priority = 'p1';
+        } else if (task.priority === Priority.Goal) {
+            priority = 'goal';
         }
 
         const blockedBy: Task[] = [];
@@ -169,20 +169,20 @@ export class EditableTask {
 
         let parsedPriority: Priority;
         switch (this.priority) {
-            case 'lowest':
-                parsedPriority = Priority.Lowest;
+            case 'p4':
+                parsedPriority = Priority.P4;
                 break;
-            case 'low':
-                parsedPriority = Priority.Low;
+            case 'p3':
+                parsedPriority = Priority.P3;
                 break;
-            case 'medium':
-                parsedPriority = Priority.Medium;
+            case 'p2':
+                parsedPriority = Priority.P2;
                 break;
-            case 'high':
-                parsedPriority = Priority.High;
+            case 'p1':
+                parsedPriority = Priority.P1;
                 break;
-            case 'highest':
-                parsedPriority = Priority.Highest;
+            case 'goal':
+                parsedPriority = Priority.Goal;
                 break;
             default:
                 parsedPriority = Priority.None;

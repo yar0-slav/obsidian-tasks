@@ -3,7 +3,7 @@
  *
  * A convention has been adopted in the Tasks grouping code to use commented-out numbers to control
  * the sort order in group headings for things like {@link Priority}, which we want to
- * sort from {@link Priority.Highest} to {@link Priority.Lowest}, instead of alphabetically.
+ * sort from {@link Priority.P1} to {@link Priority.P4}, instead of alphabetically.
  *
  * This class provides a way to store a {@link name} and a {@link sortOrder}, from which {@link groupText}
  * can be constructed.

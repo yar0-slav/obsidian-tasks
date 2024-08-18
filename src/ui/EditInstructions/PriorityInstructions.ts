@@ -41,14 +41,7 @@ export class SetPriority implements TaskEditingInstruction {
  * @todo Add instructions for increasing and decreasing the priority.
  */
 export function allPriorityInstructions() {
-    const allPriorities = [
-        Priority.Highest,
-        Priority.High,
-        Priority.Medium,
-        Priority.None,
-        Priority.Low,
-        Priority.Lowest,
-    ];
+    const allPriorities = [Priority.Goal, Priority.P1, Priority.P2, Priority.P3, Priority.P4, Priority.None];
     const instructions = [];
     for (const priority of allPriorities) {
         instructions.push(new SetPriority(priority));
